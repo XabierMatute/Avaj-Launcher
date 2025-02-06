@@ -14,11 +14,8 @@ class WeatherProvider
 {
     private static String[] weather = {"RAIN", "FOG", "SUN", "SNOW"};
     private static WeatherProvider instance = null;
-    private static int seed
 
     private WeatherProvider() {
-        Random random = new Random();
-        seed = random.nextInt();
     }
 
     public static WeatherProvider getInstance()
@@ -30,6 +27,9 @@ class WeatherProvider
 
     public String getCurrentWeather(Coordinates p_coordinates)
     {
-        return weather[weatherIndex];
+        //WIP modo filadelfia
+        //TODO: una forma de generarlo que dependa de las cordenadas y me mole
+    
+        return "SUN";
     }
 }

@@ -1,16 +1,43 @@
 package com.frankfurtairport.avajlauncher;
 
 public class AircraftFactory {
-    public static Flyable newAircraft(String p_type, String p_name, Coordinates p_coordinates) {
+    private static AircraftFactory instance = null;
+    private static int idCounter = 0;
+
+    private AircraftFactory() {
+    }
+
+    public static AircraftFactory getInstance() {
+        if (instance == null)
+            instance = new AircraftFactory();
+        return instance;
+    }
+
+    public Flyable newAircraft(String p_type, String p_name, Coordinates p_coordinates) {
         switch (p_type) {
             case "Helicopter":
-                return new Helicopter(System.currentTimeMillis(), p_name, p_coordinates);
+                return new Helicopter(nextId(), p_name, p_coordinates);
             case "JetPlane":
-                return new JetPlane(System.currentTimeMillis(), p_name, p_coordinates);
+                return new JetPlane(nextId(), p_name, p_coordinates);
             case "Baloon":
-                return new Baloon(System.currentTimeMillis(), p_name, p_coordinates);
+                return new Baloon(nextId(), p_name, p_coordinates);
             default:
                 return null;
         }
+    }
+
+    public Flyable newAircraft(String p_type, String p_name, Coordinates p_coordinates) {
+        try {
+            Class<?> clazz = Class.forName("com.frankfurtairport.avajlauncher." + p_type);
+            return (Flyable) clazz.getConstructor(String.class, Coordinates.class)
+                                  .newInstance(p_name, p_coordinates);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private long nextId() {
+        return idCounter++;
     }
 }
