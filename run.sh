@@ -12,7 +12,7 @@ else
     exit 1
 fi
 if [ -z "$1" ]; then
-    java com.frankfurtairport.avajlauncher.Main scenarios/example.txt
+    java com.frankfurtairport.avajlauncher.Main scenarios/scenario.txt
 else
     java com.frankfurtairport.avajlauncher.Main $1
 fi

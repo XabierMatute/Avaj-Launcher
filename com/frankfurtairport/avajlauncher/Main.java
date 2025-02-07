@@ -1,123 +1,66 @@
 package com.frankfurtairport.avajlauncher;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class Main
 {
-    public static void testNoiseMap()
-    {
-        NoiseMap noiseMap = new NoiseMap();
-        System.out.println(noiseMap.getValue(0, 0));
-        System.out.println(noiseMap.getValue(1, 1));
-        System.out.println(noiseMap.getValue(2, 2));
-        System.out.println(noiseMap.getValue(3, 3));
-        System.out.println(noiseMap.getValue(3.14159, 3.14159));
-        System.out.println(noiseMap.getValue(0.5, 0.5));
-    }
+    private static String path;
+    private static int simulationCount = 0;
+    private static WeatherTower weatherTower = new WeatherTower();
+    private static AircraftFactory aircraftFactory = AircraftFactory.getInstance();
 
-    public static void testSineWave()
-    {
-        SineWave sineWave = new SineWave(1, 1, 0);
-        System.out.println(sineWave.getValue(0));
-        System.out.println(sineWave.getValue(0.5));
-        System.out.println(sineWave.getValue(1));
-        System.out.println(sineWave.getValue(1.0 / 2));
-        System.out.println(sineWave.getValue(1.0 / 3));
-        System.out.println(sineWave.getValue(1.0 / 4));
-        System.out.println(sineWave.getValue(1.0 / 8));
-        System.out.println(sineWave.getValue(1.0 / 16));
-        System.out.println(sineWave.getValue(-0.25));
-        // System.out.println(sineWave.getValue(2));
-        // System.out.println(sineWave.getValue(3));
-        // System.out.println(sineWave.getValue(3.14159));
-        // System.out.println(sineWave.getValue(0.5));
-    }
+    
+    private static void parseInput(String filePath) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader(filePath));
+        String line = reader.readLine();
+        if (line == null || !line.matches("\\d+")) {
+            throw new IllegalArgumentException("Invalid input file: first line must be a positive integer instead of: " + line);
+        }
+        simulationCount = Integer.parseInt(line);
+        System.out.println("Simulation count: " + simulationCount);
 
-        public static void testSineWaves() {
-        SineWave sineWave1 = new SineWave(1, 1, 0);
-        SineWave sineWave2 = new SineWave(0.5, 2, Math.PI / 2);
-        SineWave sineWave3 = new SineWave(0.25, 0.5, Math.PI);
+        while ((line = reader.readLine()) != null) {
+            String[] parts = line.trim().split("\\s+");
+            if (parts.length != 5) {
+                throw new IllegalArgumentException("Invalid input file: each aircraft line must have 5 parts: type, name, longitude, latitude, height.\n\tInvalid line: " + line);
+            }
+            String type = parts[0];
+            String name = parts[1];
+            int longitude = Integer.parseInt(parts[2]);
+            int latitude = Integer.parseInt(parts[3]);
+            int height = Integer.parseInt(parts[4]);
+            Coordinates coordinates = new Coordinates(longitude, latitude, height);
 
-        SineWave[] sineWaveArray = { sineWave1, sineWave2, sineWave3 };
-        SineWaves sineWaves = new SineWaves(sineWaveArray);
+            Flyable aircraft = aircraftFactory.newAircraft(type, name, coordinates);
+            if (aircraft == null)
+                throw new IllegalArgumentException("cannot create aircraftmake comm );
+            aircraft.registerTower(weatherTower);
 
-        System.out.println(sineWaves.getValue(0));       // Expected output: sum of sineWave1, sineWave2, sineWave3 at x = 0
-        System.out.println(sineWaves.getValue(0.5));     // Expected output: sum of sineWave1, sineWave2, sineWave3 at x = 0.5
-        System.out.println(sineWaves.getValue(1));       // Expected output: sum of sineWave1, sineWave2, sineWave3 at x = 1
-        System.out.println(sineWaves.getValue(1.0 / 2)); // Expected output: sum of sineWave1, sineWave2, sineWave3 at x = 0.5
-        System.out.println(sineWaves.getValue(1.0 / 3)); // Expected output: sum of sineWave1, sineWave2, sineWave3 at x = 1/3
-        System.out.println(sineWaves.getValue(1.0 / 4)); // Expected output: sum of sineWave1, sineWave2, sineWave3 at x = 1/4
-        System.out.println(sineWaves.getValue(1.0 / 8)); // Expected output: sum of sineWave1, sineWave2, sineWave3 at x = 1/8
-        System.out.println(sineWaves.getValue(1.0 / 16));// Expected output: sum of sineWave1, sineWave2, sineWave3 at x = 1/16
-        System.out.println(sineWaves.getValue(-0.25));   // Expected output: sum of sineWave1, sineWave2, sineWave3 at x = -0.25
-    }
-
-    public static void testFourierSerie()
-    {
-        // double[] a = {1, 2, 3};
-        double[] a = {1};
-        // double[] b = {4, 5, 6};
-        double[] b = {};
-        FourierSerie fourierSerie = new FourierSerie(a, b);
-        System.out.println(fourierSerie.getValue(0));
-        System.out.println(fourierSerie.getValue(1));
-        System.out.println(fourierSerie.getValue(2));
-        System.out.println(fourierSerie.getValue(3));
-        System.out.println(fourierSerie.getValue(3.14159));
-        System.out.println(fourierSerie.getValue(0.5));
-    }
-
-    public static void testCoordinates()
-    {
-        System.out.println("Hello World");
-        Coordinates coordinates = new Coordinates(1, 2, 3);
-        System.out.println(coordinates);
-        System.out.println("Longitude: " + coordinates.getLongitude());
-        System.out.println("Latitude: " + coordinates.getLatitude());
-        System.out.println("Height: " + coordinates.getHeight());
-        Coordinates coordinates2 = new Coordinates(1, 2, 2);
-        System.out.println(coordinates2);
-        if (coordinates.equals(coordinates2))
-        {
-            System.out.println("Coordinates are equal");
+            System.out.println("Aircraft: " + type + " " + name + " " + longitude + " " + latitude + " " + height);
         }
-        else
-        {
-            System.out.println("Coordinates are not equal");
-        }
-        System.out.println(coordinates2.incrementHeight(1));
-        if (coordinates.equals(coordinates2))
-        {
-            System.out.println("Coordinates are equal");
-        }
-        else
-        {
-            System.out.println("Coordinates are not equal");
-        }
-        try
-        {
-            coordinates2 = new Coordinates(1, 3, -42);
-        }
-        catch (Coordinates.InvalidCoordinateException e)
-        {
-            System.out.println(e.getMessage());
-        }
-        try
-        {
-            coordinates.decrementHeight(5);
-        }
-        catch (Coordinates.InvalidCoordinateException e)
-        {
-            System.out.println(e.getMessage());
-        }
+        reader.close();
     }
 
     public static void main(String[] args)
     {
-        // testCoordinates();
-        // testFourierSerie();
-        // testSineWave();
-        // testSineWaves();
-        // testNoiseMap();
-        NoiseMap noiseMap = new NoiseMap(5);
-        noiseMap.generateCSV("noise_map.csv", 1500, 1500, 1);
+        if (args.length != 1)
+        {
+            System.out.println("Usage: java com.frankfurtairport.avajlauncher.Main <input_file>");
+            return;
+        }
+        path = args[0];
+        try {
+            parseInput(path);
+        } catch (IOException | IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+        // catch (ClassNotFoundException e) {
+        //     System.out.println("Error: " + e.getMessage());
+        // }
+        catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
     }
 }

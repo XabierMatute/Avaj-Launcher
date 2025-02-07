@@ -30,4 +30,7 @@ public class Aircraft extends Flyable {
 
         ids.add(p_id);
     }
+
+    public void updateConditions() {
+    }
 }
