@@ -33,6 +33,8 @@ public class Aircraft extends Flyable {
     protected int snowLongitudeIncrement = 0;
     protected int snowLatitudeIncrement = 0;
 
+    protected String landMessage = "generic reaction to landing";
+
     /**
      * Constructor for the Aircraft class.
      * @param p_id The unique identifier.
@@ -55,25 +57,25 @@ public class Aircraft extends Flyable {
         String weather = WeatherProvider.getInstance().getCurrentWeather(coordinates);
         switch (weather) { 
             case "SUN":
-                System.out.println(this + ": " + sunMessage);
+                sendMessage(sunMessage);
                 this.coordinates.incrementLongitude(sunLongitudeIncrement);
                 this.coordinates.incrementLatitude(sunLatitudeIncrement);
                 this.coordinates.incrementHeight(sunHeightIncrement);
                 break;
             case "RAIN":
-                System.out.println(this + ": " + rainMessage);
+                sendMessage(rainMessage);
                 this.coordinates.incrementHeight(rainHeightIncrement);
                 this.coordinates.incrementLongitude(rainLongitudeIncrement);
                 this.coordinates.incrementLatitude(rainLatitudeIncrement);
                 break;
             case "FOG" :
-                System.out.println(this + ": " + fogMessage);
+                sendMessage(fogMessage);
                 this.coordinates.incrementHeight(fogHeightIncrement);
                 this.coordinates.incrementLongitude(fogLongitudeIncrement);
                 this.coordinates.incrementLatitude(fogLatitudeIncrement);
                 break;
             case "SNOW" :
-                System.out.println(this + ": " + snowMessage);
+                sendMessage(snowMessage);
                 this.coordinates.incrementHeight(snowHeightIncrement);
                 this.coordinates.incrementLongitude(snowLongitudeIncrement);
                 this.coordinates.incrementLatitude(snowLatitudeIncrement);
@@ -82,7 +84,7 @@ public class Aircraft extends Flyable {
                 throw new IllegalArgumentException("Condición climática no reconocida: " + weather);
         }
         if (this.coordinates.getHeight() <= 0) {
-            System.out.println(this + " landing.");
+            sendMessage(landMessage);
             weatherTower.unregister(this);
         }
     }

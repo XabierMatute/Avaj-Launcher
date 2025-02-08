@@ -28,12 +28,11 @@ public class AircraftFactory {
 
     public Flyable newAircraft(String p_type, String p_name, Coordinates p_coordinates) {
         try {
-            System.out.print("com.frankfurtairport.avajlauncher.aircrafts." + p_type+ "\n");
             Class<?> clazz = Class.forName("com.frankfurtairport.avajlauncher.aircrafts." + p_type);
             return (Flyable) clazz.getConstructor(long.class, String.class, Coordinates.class)
                                   .newInstance(nextId(), p_name, p_coordinates);
         } catch (Exception e) {
-            // e.printStackTrace();
+            System.out.println("Error: " + e.getMessage());
             return null;
         }
     }

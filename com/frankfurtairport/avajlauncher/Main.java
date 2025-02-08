@@ -3,6 +3,8 @@ package com.frankfurtairport.avajlauncher;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.File;
+import java.io.FileWriter;
 
 
 public class Main
@@ -12,7 +14,20 @@ public class Main
     private static WeatherTower weatherTower = new WeatherTower();
     private static AircraftFactory aircraftFactory = AircraftFactory.getInstance();
 
+    private static String outputFile = "simulation.txt";
+    private static FileWriter writer = null;
     
+    private static void createOutputFile(String filePath) throws IOException {
+        File file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+        }
+        file.createNewFile();
+
+        writer = new FileWriter(file);
+        weatherTower.setWriter(writer);
+    }
+
     private static void parseInput(String filePath) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         String line = reader.readLine();
@@ -20,8 +35,9 @@ public class Main
             throw new IllegalArgumentException("Invalid input file: first line must be a positive integer instead of: " + line);
         }
         simulationCount = Integer.parseInt(line);
-        System.out.println("Simulation count: " + simulationCount);
-
+        if (simulationCount < 0) {
+            throw new IllegalArgumentException("Invalid input file: simulation count must be a positive integer instead of: " + simulationCount);
+        }
         while ((line = reader.readLine()) != null) {
             String[] parts = line.trim().split("\\s+");
             if (parts.length != 5) {
@@ -38,19 +54,16 @@ public class Main
             if (aircraft == null)
                 throw new IllegalArgumentException("cannot create aircraft of type " +  type);
             aircraft.registerTower(weatherTower);
-
-            System.out.println("Aircraft: " + type + " " + name + " " + longitude + " " + latitude + " " + height);
         }
         reader.close();
     }
 
     private static void runSimulation()
     {
-        for(int i = 0; // índice de control
-        i < simulationCount;   // condición booleana
-        i++)      // modificación del índice tras cada bucle
+        for(int i = 0;
+        i < simulationCount;
+        i++)
         {
-            System.out.println(i);
             weatherTower.changeWeather();
         }
     }
@@ -64,8 +77,10 @@ public class Main
         }
         path = args[0];
         try {
+            createOutputFile(outputFile);
             parseInput(path);
             runSimulation();
+            writer.close();
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }

@@ -20,5 +20,7 @@ public class JetPlane extends Aircraft
 
         snowMessage = "Oh the weather outside is frightful, but the fire is so delightful.";
         snowHeightIncrement = -7;
+
+        landMessage = "And so the Courier, who had cheated death in the cemetery outside Goodsprings, cheated death once again, landing.";
     }
 }

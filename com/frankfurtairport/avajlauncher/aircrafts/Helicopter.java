@@ -21,5 +21,7 @@ public class Helicopter extends Aircraft
 
         snowMessage = "Vaya Helinevada";
         snowHeightIncrement = -12;
+
+        landMessage = "Vaya Heliaterrizaje";
     }
 }

@@ -24,4 +24,9 @@ abstract class Flyable
         this.weatherTower = p_Tower;
         weatherTower.register(this);
     }
+
+    protected void sendMessage(String p_message)
+    {
+        weatherTower.reciveMessage(this, p_message);
+    }
 }

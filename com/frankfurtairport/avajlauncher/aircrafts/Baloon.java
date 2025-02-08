@@ -22,5 +22,7 @@ public class Baloon extends Aircraft
 
         snowMessage = "Con esta nieve tengo la piel de gallina, ¿quiere comprobarlo torre de control?";
         snowHeightIncrement = -15;
+
+        landMessage = "Aterrizado con éxito, jodete Mr. Sullivan.";
     }
 }
