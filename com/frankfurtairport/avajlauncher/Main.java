@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+
 public class Main
 {
     private static String path;
@@ -35,12 +36,23 @@ public class Main
 
             Flyable aircraft = aircraftFactory.newAircraft(type, name, coordinates);
             if (aircraft == null)
-                throw new IllegalArgumentException("cannot create aircraftmake comm );
+                throw new IllegalArgumentException("cannot create aircraft of type " +  type);
             aircraft.registerTower(weatherTower);
 
             System.out.println("Aircraft: " + type + " " + name + " " + longitude + " " + latitude + " " + height);
         }
         reader.close();
+    }
+
+    private static void runSimulation()
+    {
+        for(int i = 0; // índice de control
+        i < simulationCount;   // condición booleana
+        i++)      // modificación del índice tras cada bucle
+        {
+            System.out.println(i);
+            weatherTower.changeWeather();
+        }
     }
 
     public static void main(String[] args)
@@ -53,12 +65,10 @@ public class Main
         path = args[0];
         try {
             parseInput(path);
+            runSimulation();
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Error: " + e.getMessage());
         }
-        // catch (ClassNotFoundException e) {
-        //     System.out.println("Error: " + e.getMessage());
-        // }
         catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }

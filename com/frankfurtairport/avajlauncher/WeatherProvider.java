@@ -10,7 +10,8 @@ import java.util.Random;
 // }
 
 
-class WeatherProvider
+
+public class WeatherProvider
 {
     private static String[] weather = {"RAIN", "FOG", "SUN", "SNOW"};
     private static WeatherProvider instance = null;
@@ -25,11 +26,19 @@ class WeatherProvider
         return instance;
     }
 
+
+    private int currentWeather = 0;
+    public void update()
+    {
+        currentWeather++;
+        currentWeather %=4;
+    }
+
     public String getCurrentWeather(Coordinates p_coordinates)
     {
         //WIP modo filadelfia
         //TODO: una forma de generarlo que dependa de las cordenadas y me mole
     
-        return "SUN";
+        return weather[currentWeather];
     }
 }

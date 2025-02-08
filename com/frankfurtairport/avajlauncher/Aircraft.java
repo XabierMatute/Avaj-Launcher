@@ -20,9 +20,8 @@ public class Aircraft extends Flyable {
      * @param p_coordinates The coordinates of the aircraft.
      */
     protected Aircraft(long p_id, String p_name, Coordinates p_coordinates) {
-        if (ids.contains(p_id)) {
+        if (ids.contains(p_id))
             throw new IllegalArgumentException("An aircraft with the id " + p_id + " already exists.");
-        }
 
         this.id = p_id;
         this.name = p_name;
@@ -31,6 +30,30 @@ public class Aircraft extends Flyable {
         ids.add(p_id);
     }
 
-    public void updateConditions() {
+    public void updateConditions()
+    {
+        String weather = WeatherProvider.getInstance().getCurrentWeather(coordinates);
+        switch (weather) { 
+            case "SUN":
+                reactToSun();
+                break;
+            case "RAIN":
+                reactToRain();
+                break;
+            case "FOG" :
+                reactToFog();
+                break;
+            case "SNOW" :
+                reactToSnow();
+                break;
+            default:
+            throw new IllegalArgumentException("Condición climática no reconocida: " + weather);
+        }
+        if 
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + "#" + name + "("+ id + ")";
     }
 }

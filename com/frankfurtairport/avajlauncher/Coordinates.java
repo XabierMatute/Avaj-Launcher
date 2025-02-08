@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * Represents the geographical coordinates of an aircraft.
  */
-class Coordinates {
+public class Coordinates {
     private static final int MIN_COORDINATE = 0;
     private static final int MAX_HEIGHT = 100;
     private int longitude;
