@@ -81,6 +81,10 @@ public class Aircraft extends Flyable {
             default:
                 throw new IllegalArgumentException("Condición climática no reconocida: " + weather);
         }
+        if (this.coordinates.getHeight() <= 0) {
+            System.out.println(this + " landing.");
+            weatherTower.unregister(this);
+        }
     }
 
     @Override

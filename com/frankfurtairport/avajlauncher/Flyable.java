@@ -19,9 +19,9 @@ abstract class Flyable
      * Registers the flyable object with a weather tower.
      * @param weatherTower The weather tower to register with.
      */
-    public void registerTower(WeatherTower weatherTower)
+    public void registerTower(WeatherTower p_Tower)
     {
-        this.weatherTower = weatherTower;
+        this.weatherTower = p_Tower;
         weatherTower.register(this);
     }
 }

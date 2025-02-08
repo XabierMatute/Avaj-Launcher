@@ -9,6 +9,7 @@ import java.util.Objects;
 public class Coordinates {
     private static final int MIN_COORDINATE = 0;
     private static final int MAX_HEIGHT = 100;
+    private static final int MIN_HEIGHT = 0;
     private int longitude;
     private int latitude;
     private int height;
@@ -120,7 +121,7 @@ public class Coordinates {
      */
     private void checkHeight() {
         if (this.height < MIN_COORDINATE) {
-            throw new InvalidCoordinateException("Height cannot be negative: " + this.height);
+            this.height = MIN_HEIGHT;
         }
         if (this.height > MAX_HEIGHT) {
             this.height = MAX_HEIGHT;

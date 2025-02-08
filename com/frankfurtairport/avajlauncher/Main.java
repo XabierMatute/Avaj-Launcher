@@ -70,7 +70,7 @@ public class Main
             System.out.println("Error: " + e.getMessage());
         }
         catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            System.out.println("Unexpected error: " + e.getMessage() + " " + e.getClass());
         }
     }
 }

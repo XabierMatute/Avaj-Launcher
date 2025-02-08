@@ -1,14 +1,7 @@
 package com.frankfurtairport.avajlauncher;
 
 import java.util.ArrayList;
-
-// class Tower
-// {
-// - List<Flyable*> observers
-// +void register(Flyable* p_flyable)
-// +void unregister(Flyable* p_flyable)
-// #void conditionChanged()
-// }
+import java.util.Iterator;
 
 public class Tower {
     private ArrayList<Flyable> observers = new ArrayList<Flyable>();
@@ -27,9 +20,10 @@ public class Tower {
     }
 
     protected void conditionChanged() {
-        for (Flyable flyable : observers) {
+        Iterator<Flyable> iterator = observers.iterator();
+        while (iterator.hasNext()) {
+            Flyable flyable = iterator.next();
             flyable.updateConditions();
-
         }
     }
 }
