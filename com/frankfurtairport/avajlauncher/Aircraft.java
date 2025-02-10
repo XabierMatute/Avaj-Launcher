@@ -3,9 +3,6 @@ package com.frankfurtairport.avajlauncher;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Class representing an aircraft.
- */
 public class Aircraft extends Flyable {
     protected static List<Long> ids = new ArrayList<>();
 
@@ -35,12 +32,6 @@ public class Aircraft extends Flyable {
 
     protected String landMessage = "generic reaction to landing";
 
-    /**
-     * Constructor for the Aircraft class.
-     * @param p_id The unique identifier.
-     * @param p_name The name of the aircraft.
-     * @param p_coordinates The coordinates of the aircraft.
-     */
     protected Aircraft(long p_id, String p_name, Coordinates p_coordinates) {
         if (ids.contains(p_id))
             throw new IllegalArgumentException("An aircraft with the id " + p_id + " already exists.");

@@ -3,14 +3,6 @@ package com.frankfurtairport.avajlauncher;
 import java.util.ArrayList;
 import java.io.FileWriter;
 
-// class Tower
-// {
-// - List<Flyable*> observers
-// +void register(Flyable* p_flyable)
-// +void unregister(Flyable* p_flyable)
-// #void conditionChanged()
-// }
-
 public class Tower {
     private ArrayList<Flyable> observers = new ArrayList<Flyable>();
     private FileWriter writer = null;

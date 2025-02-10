@@ -2,18 +2,8 @@ package com.frankfurtairport.avajlauncher;
 
 import java.util.Random;
 
-// class WeatherProvider <<Singleton>>
-// {
-// -string[] weather
-// -WeatherProvider()
-// +string getCurrentWeather(Coordinates p_coordinates)
-// }
-
-
-
 public class WeatherProvider
 {
-    //private static String[] weather = {"RAIN", "FOG", "SUN", "SNOW"};
     private static String[] weather = {"SUN", "FOG", "RAIN", "SNOW"};
     private static WeatherProvider instance = null;
 
